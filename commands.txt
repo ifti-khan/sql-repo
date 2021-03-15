@@ -1,0 +1,93 @@
+mysql> source test.sql;
++----------+
+| count(*) |
++----------+
+|     3503 |
++----------+
+1 row in set (0.00 sec)
+
++----------+
+| count(*) |
++----------+
+|      275 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select * from Album limit 5;
++---------+---------------------------------------+----------+
+| AlbumId | Title                                 | ArtistId |
++---------+---------------------------------------+----------+
+|       1 | For Those About To Rock We Salute You |        1 |
+|       2 | Balls to the Wall                     |        2 |
+|       3 | Restless and Wild                     |        2 |
+|       4 | Let There Be Rock                     |        1 |
+|       5 | Big Ones                              |        3 |
++---------+---------------------------------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select Title, Name from Album
+    -> Join Artist on Album.ArtistID = Artist.ArtistID
+    -> limit 5;
++---------------------------------------+-----------+
+| Title                                 | Name      |
++---------------------------------------+-----------+
+| For Those About To Rock We Salute You | AC/DC     |
+| Balls to the Wall                     | Accept    |
+| Restless and Wild                     | Accept    |
+| Let There Be Rock                     | AC/DC     |
+| Big Ones                              | Aerosmith |
++---------------------------------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> Desc Genre;
++---------+--------------+------+-----+---------+----------------+
+| Field   | Type         | Null | Key | Default | Extra          |
++---------+--------------+------+-----+---------+----------------+
+| GenreId | int          | NO   | PRI | NULL    | auto_increment |
+| Name    | varchar(120) | YES  |     | NULL    |                |
++---------+--------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Genre (Name) values ('Trad');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select last_insert_id();
++------------------+
+| last_insert_id() |
++------------------+
+|               26 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> selcet name from genre where genreid = 27;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selcet name from genre where genreid = 27' at line 1
+mysql> select Name from Genre where GenreId = 27
+    -> ;
+Empty set (0.00 sec)
+
+mysql> select Name from Genre where GenreId = 26;
++------+
+| Name |
++------+
+| Trad |
++------+
+1 row in set (0.00 sec)
+
+mysql> update Genre set Name = 'Traditional' where GenreId = 26;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select Name from Genre where GenreId = 26;
++-------------+
+| Name        |
++-------------+
+| Traditional |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> Delete from Genre where Name = 'Traditional';
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select Name from Genre where GenreId = 26;
+Empty set (0.00 sec)
+
